@@ -16,7 +16,7 @@
 		<button type="default" @click="store.decrement">decrement</button>
 	</view>
 </template>
-<script>
+<script setup lang="ts">
 import IAccount from './components/account.vue';
 import IMobile from './components/mobile.vue';
 import { ref, computed } from 'vue';
@@ -25,7 +25,7 @@ import {useCounterStore} from '../../store/counter'
 // 0手机登录 如果不是则为1账号登录
 const store = ref<number>(0)
 	
-const tabMetas = ref<metaType[]>([
+const tabMetas = ref<metaType>([
 		
 	{
 		title: '手机号登录',

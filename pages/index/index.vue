@@ -15,8 +15,8 @@ import { login } from '@/api/login'
 const handleRequest = async () => {
 	uni.utils.toast()
 	const res = await login({
-		account: 'xbsj001',
-		password: '123456'
+		account: 'hbxlww1314',
+		password: '1314520'
 	})
 	console.log('res=>', res)
 }
