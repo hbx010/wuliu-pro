@@ -1,54 +1,72 @@
 <template>
-	<uni-forms ref="form" :rules="accountRules" :modelValue='formData'>
-		<uni-froms-item name="account">
+	<uni-forms ref="form" :rules="accountRules" :modelValue="formData">
+		<uni-forms-item name="account">
 			<input type="text" v-model.trim="formData.account" placeholder="请输入您的账号" />
-		</uni-froms-item>
-		<uni-froms-item name="password">
+		</uni-forms-item>
+		<uni-forms-item name="password">
 			<input type="password" v-model.trim="formData.password" placeholder="请输入您的密码" />
-		</uni-froms-item>
+		</uni-forms-item>
 		<button @click="submitLogin" class="submit-button">登录</button>
 	</uni-forms>
 </template>
+
 <script setup lang="ts">
-	import {ref} from 'vue'
-	import {formDataType} from './types/type' 
-	import {accountRules} from './rules/rule' 
-	import {login} from '@/api/login'
-	import {useUserStore} from '@/store/user'
-	const store = useUserStore()
-	
-	
-	// 表单标识
-	const form = ref()
-	
-	// 数据
-	const formDate=ref<formDataType>({
-		account: 'hbxlww1314',
-		password: '1314520'
-	})
-	// 账号登录方法
-	const submitLogin = async () => {
-		try {
-			// 触发表单校验
-			await form.value.validate()
-			// 调用接口
-			const res = await login(formData.value)
-	
-			// 登录失败, 进行提示
-			if (res.code !== 200) return uni.utils.toast('登录失败，请重试！')
-	
-			// 存储pinia
-			store.token = res.data
-	
-			// 跳转首页
-			uni.navigateTo({
-				url: '/pages/index/index'
-			})
-		} catch (e) {
-			console.log('error')
-		}
+import { ref } from 'vue'
+import { formDataType } from './types/type'
+import { accountRules } from './rules/rule'
+import { login } from '@/api/login'
+import { useUserStore } from '@/store/user'
+const store = useUserStore()
+
+// 表单标识
+const form = ref()
+
+// 表单数据
+const formData = ref<formDataType>({
+	account: 'xbsj001',
+	password: '123456'
+})
+
+
+// 账号登录方法
+const submitLogin = async () => {
+	try {
+		await form.value.validate()
+		// 调用接口
+		const res = await login(formData.value)
+		// 登录失败提示
+		if (res.code !== 200) return uni.utils.toast('登录失败，请重试！')
+		// 存储到pinia
+		store.token = res.data
+		// 跳转到首页
+		uni.navigateTo({
+			url: '/pages/index/index'
+		})
+	} catch (e) {
+		console.log('error')
 	}
-	
-	console.log('token', store.token)
+}
+
+console.log('token', store.token)
 </script>
-<style></style>
+
+<style lang="scss">
+.submit-button {
+	height: 100rpx;
+	line-height: 100rpx;
+	/* #ifdef APP */
+	padding-top: 4rpx;
+	/* #endif */
+	margin-top: 80rpx;
+	border: none;
+	color: #fff;
+	background-color: $uni-primary;
+	border-radius: 100rpx;
+	font-size: $uni-font-size-big;
+}
+
+button[disabled] {
+	background-color: #fadcd9;
+	color: #fff;
+}
+</style>

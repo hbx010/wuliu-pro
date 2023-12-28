@@ -1,7 +1,5 @@
 
-
-	
 export type formDataType = {
-	account:string
-	password:string
+	account: string
+	password: string
 }
