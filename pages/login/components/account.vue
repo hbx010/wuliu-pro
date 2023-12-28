@@ -13,7 +13,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { formDataType } from './types/type'
+import { accountRules } from './rules/rule'
 import { login } from '@/api/login'
+import { useUserStore } from '@/store/user'
+const store = useUserStore()
+
 // 表单标识
 const form = ref()
 
@@ -32,6 +36,7 @@ const submitLogin = async () => {
 		const res = await login(formData.value)
 		// 登录失败提示
 		if (res.code !== 200) return uni.utils.toast('登录失败，请重试！')
+		// 存储到pinia
 		store.token = res.data
 		// 跳转到首页
 		uni.navigateTo({

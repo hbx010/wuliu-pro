@@ -11,22 +11,20 @@
 		<!-- 登录表单 -->
 		<IMobile v-if="tabIndex === 0"></IMobile>
 		<IAccount v-else></IAccount>
-		{{ store.count }}
-		<button type="default" @click="store.increment">increment</button>
-		<button type="default" @click="store.decrement">decrement</button>
 	</view>
 </template>
+
 <script setup lang="ts">
-import IAccount from './components/account.vue';
-import IMobile from './components/mobile.vue';
-import { ref, computed } from 'vue';
-import { metaType } from './types/type';
-import {useCounterStore} from '../../store/counter'
-// 0手机登录 如果不是则为1账号登录
-const store = ref<number>(0)
-	
-const tabMetas = ref<metaType>([
-		
+import { ref, computed } from 'vue'
+import IAccount from './components/account.vue'
+import IMobile from './components/mobile.vue'
+import { metaType } from './types/type'
+
+// 控制默认选中的状态 0手机号登录 1账号登录
+const tabIndex = ref<number>(0)
+
+// 定义的元数据
+const tabMetas = ref<metaType[]>([
 	{
 		title: '手机号登录',
 		subTitle: '账号登录'
@@ -36,6 +34,7 @@ const tabMetas = ref<metaType>([
 		subTitle: '手机号登录'
 	}
 ])
+
 // 获取默认的数据
 const tabMeta = computed(() => {
 	return tabMetas.value[tabIndex.value]
@@ -46,6 +45,7 @@ const handleChangeType = () => {
 	tabIndex.value = Math.abs(tabIndex.value - 1)
 }
 </script>
+
 <style lang="scss">
 @import './login.scss';
 </style>
